@@ -4,63 +4,107 @@
   <meta charset="UTF-8">
   <title>My Portfolio</title>
   <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background-color: #f4f4f9;
       color: #333;
+      scroll-behavior: smooth;
     }
+
     header {
       background: #4a90e2;
       color: white;
       padding: 1rem 2rem;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    nav {
-      margin-top: 10px;
-    }
+
     nav a {
       color: white;
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
+      color: #ffdd57;
     }
+
     .hero {
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
       background: linear-gradient(135deg, #4a90e2, #50c9c3);
       color: white;
+      animation: fadeIn 2s ease-in-out;
     }
     .hero h1 {
       font-size: 3rem;
       margin-bottom: 20px;
+      animation: slideDown 1.5s ease;
     }
     .hero p {
       font-size: 1.2rem;
       max-width: 600px;
       margin: auto;
+      animation: fadeIn 2.5s ease;
     }
+    .hero button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      background: #ffdd57;
+      color: #333;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero button:hover {
+      transform: scale(1.1);
+      background: #ffc107;
+    }
+
     .content {
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
     }
+
     .card {
       background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
     footer {
       background: #333;
       color: #ccc;
       text-align: center;
       padding: 20px;
       margin-top: 40px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
   </style>
 </head>
@@ -77,6 +121,7 @@
   <section class="hero">
     <h1>Welcome 👋</h1>
     <p>This is my personal website hosted on GitHub Pages and connected via is-a.dev.</p>
+    <button onclick="document.getElementById('projects').scrollIntoView()">See My Work</button>
   </section>
 
   <section class="content">
@@ -97,6 +142,7 @@
     <div id="contact" class="card">
       <h2>Contact</h2>
       <p>You can reach me at <strong>your-email@example.com</strong> or via GitHub.</p>
+      <button onclick="alert('Thanks for reaching out!')">Say Hello</button>
     </div>
   </section>
 
