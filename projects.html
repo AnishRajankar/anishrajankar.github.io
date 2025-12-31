@@ -3,461 +3,547 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Projects — Anish Rajankar</title>
-  <meta name="description" content="Project showcase: Python, Web, Blender, Video editing and more." />
+  <title>Anish Rajankar — Projects</title>
 
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --muted:#9aa4b2;
-      --accent:#60a5fa;
-      --glass: rgba(255,255,255,0.03);
-      --radius:12px;
-      --gap:18px;
-      color-scheme: dark;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --bg: #f4f4f9;
+      --card: #ffffff;
+      --muted: #666;
+      --accent: #4a90e2;
+      --cta-start: #ffdd57;
+      --cta-end: #ffc107;
+      --text: #222;
+      --glass: rgba(255,255,255,0.6);
     }
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,#071026 0%, #071827 60%);
-      color:#e6eef6;
+
+    html,body { height:100%; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      transition: background 0.35s, color 0.35s;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      padding:28px;
-      box-sizing:border-box;
     }
 
-    header{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:22px;
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo{
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      background:linear-gradient(135deg,var(--accent),#7dd3fc);
-      display:inline-grid;
-      place-items:center;
-      font-weight:700;
-      color:#04263a;
-      box-shadow:0 6px 18px rgba(2,6,23,0.6);
-    }
-    h1{font-size:1.15rem;margin:0}
-    p.lead{margin:0;color:var(--muted);font-size:0.95rem}
 
-    #projects-controls{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
+    header h2 { font-size:1.25rem; letter-spacing:0.2px; }
+    nav { display:inline-flex; align-items:center; gap:12px; margin-top:8px; flex-wrap:wrap; justify-content:center; }
+    nav a { color:white; text-decoration:none; font-weight:700; padding:6px 8px; border-radius:6px; transition:background 0.18s, color 0.18s; }
+    nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-cta { margin-left:8px; background: linear-gradient(90deg,var(--cta-start),var(--cta-end)); color:#111; border:none; padding:6px 10px; border-radius:8px; font-weight:800; text-decoration:none; }
+
+    .hero {
+      padding: 56px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #4a90e2 0%, #50c9c3 100%);
+      color: white;
     }
-    .search-wrap{
+    .hero h1 { font-size:2.2rem; margin-bottom:8px; }
+    .hero p { font-size:1rem; max-width:820px; margin: 0.5rem auto 0; color: rgba(255,255,255,0.95); }
+
+    .container {
+      max-width:1100px;
+      margin: 28px auto;
+      padding: 0 20px;
+    }
+
+    .section-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+    .section-header h2 { font-size:1.4rem; }
+    .section-header p { color:var(--muted); margin-top:6px; }
+
+    /* Tag filter bar */
+    .tag-bar {
       display:flex;
       gap:8px;
+      flex-wrap:wrap;
       align-items:center;
-      background:var(--glass);
-      padding:8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.03);
     }
-    #search{
-      background:transparent;
-      border:0;
-      outline:0;
-      color:inherit;
-      padding:6px 8px;
-      min-width:220px;
-      font-size:0.95rem;
-    }
-    #tag-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    #tag-filters button{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.04);
-      color:var(--muted);
-      padding:6px 10px;
+    .tag {
+      background: rgba(0,0,0,0.04);
+      color: var(--text);
+      padding:8px 12px;
       border-radius:999px;
+      font-weight:700;
+      font-size:0.9rem;
       cursor:pointer;
-      font-size:0.85rem;
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
     }
-    #tag-filters button.active{
-      background:linear-gradient(90deg,var(--accent),#7dd3fc);
-      color:#04263a;
-      border-color:transparent;
-      box-shadow:0 6px 18px rgba(6,30,60,0.35);
+    .tag:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0,0,0,0.06); }
+    .tag.active {
+      background: linear-gradient(90deg,var(--cta-start),var(--cta-end));
+      color:#111;
+      box-shadow: 0 10px 26px rgba(255,189,51,0.12);
     }
-    .count{color:var(--muted);font-size:0.9rem;margin-left:6px}
+    .tag .count { font-weight:600; margin-left:8px; opacity:0.9; font-size:0.85rem; }
 
-    main#projects-grid{
-      margin-top:20px;
+    .controls {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-left:auto;
+    }
+    .search {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--card);
+      border-radius:8px;
+      padding:6px 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .search input {
+      border:0; outline:0; font-size:0.95rem; width:220px; background:transparent;
+    }
+    .clear-btn {
+      background:transparent; border:0; color:var(--muted); cursor:pointer; font-weight:700;
+    }
+
+    /* Project grid */
+    .project-grid {
       display:grid;
-      gap:var(--gap);
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      align-items:start;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:18px;
+      margin-top:18px;
     }
 
-    .tile{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:var(--radius);
+    .project-card {
+      background: var(--card);
+      border-radius:12px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,0.03);
-      transition:transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 8px 22px rgba(16,24,40,0.06);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
       display:flex;
       flex-direction:column;
-      min-height:320px;
+      min-height:220px;
     }
-    .tile:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(2,6,23,0.6); }
+    .project-card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(16,24,40,0.08); }
 
-    .tile-link{ color:inherit; text-decoration:none; display:flex; flex-direction:column; height:100%; }
-    .tile-media{
-      height:160px;
-      background:#071827;
-      display:block;
-      width:100%;
-      object-fit:cover;
+    .project-media {
+      height:150px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
     }
-    .tile-body{ padding:14px 14px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
-    .tile-title{ margin:0; font-size:1.02rem; font-weight:600; }
-    .tile-short{ margin:0; color:var(--muted); font-size:0.92rem; flex:1; }
-    .tile-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-    .tag{ font-size:0.78rem; color:var(--muted); background:rgba(255,255,255,0.02); padding:6px 8px; border-radius:999px; border:1px solid rgba(255,255,255,0.02); }
+    .project-media img { width:100%; height:100%; object-fit:cover; display:block; }
 
-    .tile-actions{ display:flex; gap:8px; align-items:center; margin-top:10px; }
-    .btn{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.04);
-      color:var(--muted);
-      padding:8px 10px;
+    .project-body { padding:14px 16px 18px; display:flex; flex-direction:column; gap:8px; flex:1; }
+    .project-title { font-size:1.05rem; font-weight:800; }
+    .project-desc { color: #444; font-size:0.95rem; flex:1; }
+    .project-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+    .tag-pill {
+      background: rgba(0,0,0,0.05);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:0.82rem;
+      color:#444;
+      font-weight:700;
+    }
+
+    .project-actions { display:flex; gap:8px; margin-top:10px; align-items:center; }
+    .btn {
+      padding:8px 12px;
       border-radius:8px;
+      border:0;
       cursor:pointer;
-      font-size:0.9rem;
+      font-weight:800;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .btn.primary{
-      background:var(--accent);
-      color:#04263a;
-      border-color:transparent;
-      box-shadow:0 8px 20px rgba(96,165,250,0.12);
+    .btn-primary {
+      background: linear-gradient(90deg,var(--cta-start),var(--cta-end));
+      color:#111;
+      box-shadow: 0 8px 20px rgba(255,189,51,0.12);
+    }
+    .btn-ghost {
+      background:transparent;
+      border:1px solid rgba(0,0,0,0.06);
+      color:var(--text);
     }
 
-    /* Modal */
-    .modal-backdrop{
+    .projects-footer { margin-top:22px; text-align:center; }
+
+    footer {
+      background:#333;
+      color:#ccc;
+      text-align:center;
+      padding:20px;
+      margin-top:40px;
+    }
+
+    /* Modal details */
+    .modal {
       position:fixed;
       inset:0;
       display:none;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));
-      z-index:1200;
-      padding:28px;
+      background: rgba(0,0,0,0.45);
+      z-index:2000;
+      padding:20px;
     }
-    .modal{
+    .modal.open { display:flex; }
+    .modal-card {
       width:100%;
-      max-width:920px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.04);
-      box-shadow:0 30px 80px rgba(2,6,23,0.7);
-      display:flex;
-      gap:0;
-      max-height:86vh;
+      max-width:820px;
+      background:var(--card);
+      border-radius:12px;
+      padding:18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow:auto;
+      max-height:85vh;
     }
-    .modal-media{ width:44%; min-width:260px; height:100%; object-fit:cover; background:#071827; }
-    .modal-body{ padding:18px; display:flex; flex-direction:column; gap:12px; overflow:auto; }
-    .modal h2{ margin:0; font-size:1.15rem; }
-    .modal p{ margin:0; color:var(--muted); font-size:0.95rem; line-height:1.45; }
-    .modal .meta{ display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:0.9rem; }
-    .modal .links{ display:flex; gap:8px; margin-top:8px; }
-    .close-btn{ margin-left:auto; background:transparent; border:0; color:var(--muted); font-size:1.05rem; cursor:pointer; }
+    .modal-close { float:right; background:transparent; border:0; font-size:1.1rem; cursor:pointer; }
 
-    /* Responsive tweaks */
-    @media (max-width:880px){
-      .modal{ flex-direction:column; width:100%; max-width:720px; }
-      .modal-media{ width:100%; height:220px; min-width:0; }
+    /* Dark mode */
+    body.dark {
+      --bg: #0f1115;
+      --card: #111214;
+      --muted: #9aa3b2;
+      --text: #e6eef8;
+      --glass: rgba(255,255,255,0.03);
     }
+    body.dark header { background: #0b1220; }
+    body.dark .tag { background: rgba(255,255,255,0.02); color:var(--text); border-color: rgba(255,255,255,0.03); }
+    body.dark .search { background: #0f1114; border-color: rgba(255,255,255,0.03); }
+    body.dark .gallery-caption { background: rgba(255,255,255,0.04); color:var(--text); }
+    body.dark .project-desc { color:#cbd5e1; }
+    body.dark .btn-ghost { border-color: rgba(255,255,255,0.06); color:var(--text); }
 
-    /* small helper */
-    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    @media (max-width:640px){
+      .search input { width:120px; }
+      .hero h1 { font-size:1.6rem; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true">AR</div>
-      <div>
-        <h1>Projects</h1>
-        <p class="lead">A curated list of projects — code, design, and media.</p>
-      </div>
-    </div>
-
-    <div id="projects-controls" aria-hidden="false">
-      <div class="search-wrap" role="search" aria-label="Search projects">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/></svg>
-        <input id="search" type="search" placeholder="Search projects, tags, descriptions..." aria-label="Search projects" />
-      </div>
-
-      <div id="tag-filters" aria-label="Filter by tag" role="toolbar"></div>
-
-      <div class="count" aria-live="polite" id="projects-count">0 projects</div>
-    </div>
+    <h2>Anish Rajankar</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="nav-cta" href="index.html#projects">Back to Home</a>
+      <a href="https://github.com/AnishRajankar" target="_blank" rel="noopener">GitHub</a>
+      <button onclick="toggleDarkMode()" style="margin-left:8px; padding:6px 10px; border-radius:6px; border:0; background:linear-gradient(90deg,var(--cta-start),var(--cta-end)); cursor:pointer;">🌙</button>
+    </nav>
   </header>
 
-  <main id="projects-grid" aria-live="polite" aria-busy="true">
-    <!-- Tiles will be injected here -->
+  <section class="hero">
+    <h1>Projects</h1>
+    <p>A curated list of projects, experiments, and creative work. Use the tags to filter by technology or type, search by keyword, and open any project for details and links.</p>
+  </section>
+
+  <main class="container" id="main">
+    <div class="section-header">
+      <div>
+        <h2>Featured Projects</h2>
+        <p>Selected work with short descriptions and tech tags.</p>
+      </div>
+
+      <div class="controls" aria-hidden="false">
+        <div class="tag-bar" id="tagBar" role="list" aria-label="Project tags">
+          <!-- tags injected by JS -->
+        </div>
+
+        <div class="search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="#888" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#888" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="searchInput" type="search" placeholder="Search projects..." aria-label="Search projects" />
+          <button class="clear-btn" id="clearSearch" title="Clear search">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-grid" id="projectGrid" aria-live="polite">
+      <!-- Project cards injected by JS -->
+    </div>
+
+    <div class="projects-footer">
+      <a class="btn btn-ghost" href="https://github.com/AnishRajankar?tab=repositories" target="_blank" rel="noopener">See all repositories on GitHub</a>
+    </div>
   </main>
 
-  <!-- Template -->
-  <template id="project-tile">
-    <article class="tile">
-      <a class="tile-link" href="#" role="button">
-        <img class="tile-media" alt="" loading="lazy" />
-        <div class="tile-body">
-          <h3 class="tile-title"></h3>
-          <p class="tile-short"></p>
-          <div class="tile-tags" aria-hidden="true"></div>
-          <div class="tile-actions">
-            <button class="btn details-btn" type="button">Details</button>
-            <a class="btn primary view-btn" href="#" target="_blank" rel="noopener">Open</a>
-          </div>
-        </div>
-      </a>
-    </article>
-  </template>
+  <footer>
+    <p>&copy; <span id="year"></span> Anish Rajankar</p>
+  </footer>
 
-  <!-- Modal -->
-  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <img class="modal-media" id="modal-media" alt="" />
-      <div class="modal-body">
-        <div style="display:flex;align-items:center;gap:12px">
-          <h2 id="modal-title"></h2>
-          <button class="close-btn" id="modal-close" aria-label="Close details">✕</button>
-        </div>
-        <div class="meta" id="modal-tags"></div>
-        <p id="modal-details"></p>
-        <div class="links" id="modal-links"></div>
-      </div>
+  <!-- Modal for project details -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <button class="modal-close" id="modalClose" aria-label="Close details">✕</button>
+      <div id="modalContent"></div>
     </div>
   </div>
 
-  <noscript>
-    <p style="color:var(--muted)">JavaScript is required to load projects dynamically. If you prefer no-JS, consider generating static HTML from <code>projects.json</code> at build time.</p>
-  </noscript>
-
   <script>
-    (function(){
-      const grid = document.getElementById('projects-grid');
-      const tpl = document.getElementById('project-tile');
-      const tagContainer = document.getElementById('tag-filters');
-      const searchInput = document.getElementById('search');
-      const countEl = document.getElementById('projects-count');
-      const modalBackdrop = document.getElementById('modal-backdrop');
-      const modalTitle = document.getElementById('modal-title');
-      const modalMedia = document.getElementById('modal-media');
-      const modalTags = document.getElementById('modal-tags');
-      const modalDetails = document.getElementById('modal-details');
-      const modalLinks = document.getElementById('modal-links');
-      const modalClose = document.getElementById('modal-close');
-
-      let projects = [];
-      let activeTags = new Set();
-
-      async function loadProjects(){
-        try{
-          const res = await fetch('/projects.json', {cache: "no-cache"});
-          if(!res.ok) throw new Error('Failed to fetch projects.json');
-          projects = await res.json();
-        }catch(err){
-          grid.innerHTML = '<p style="color:var(--muted)">Unable to load projects. Check that <code>projects.json</code> exists in the repo root and is valid JSON.</p>';
-          console.error(err);
-          return;
-        }
-
-        renderTagButtons();
-        renderTiles(projects);
-        document.body.querySelector('#projects-grid').setAttribute('aria-busy','false');
+    // Projects data
+    const projects = [
+      {
+        id: "ts-distribution",
+        title: "Python T-SHort Distribution System",
+        desc: "A Python-based distribution system for T-shirt orders and inventory handling. Built with a focus on reliability and simple CLI/automation workflows.",
+        tags: ["Python","CLI","Automation"],
+        img: "images/project-ts-dist.png",
+        links: []
+      },
+      {
+        id: "inventory-tracker",
+        title: "Inventory Tracker (Streamlit)",
+        desc: "An inventory tracker built with Streamlit for quick dashboards and CRUD operations. Includes CSV import/export and simple analytics.",
+        tags: ["Python","Streamlit","Dashboard"],
+        img: "images/project-inventory.png",
+        links: [{label:"GitHub", href:"https://github.com/AnishRajankar/inventory-tracker"}]
+      },
+      {
+        id: "video-editing",
+        title: "Video Editing Work",
+        desc: "Five years of video editing experience — hundreds of videos and thousands of hours of footage edited for clients and personal projects. Skills include color grading, motion graphics, and efficient workflow pipelines.",
+        tags: ["Video","Editing","Workflow"],
+        img: "images/project-video-editing.png",
+        links: []
+      },
+      {
+        id: "calculator-app",
+        title: "Python Calculator App",
+        desc: "A lightweight calculator application implemented in Python with a clean UI and extensible operations. Useful as a learning project and utility.",
+        tags: ["Python","App","Utility"],
+        img: "images/project-calculator.png",
+        links: []
+      },
+      {
+        id: "cycling-app",
+        title: "Cycling Application",
+        desc: "A cycling app integrating Leaflet, Google Maps, OSMaps, vehicle number recognition APIs, and OpenAI Whisper for voice features. Designed for route planning, tracking, and automated logging.",
+        tags: ["Python","Maps","APIs","OpenAI"],
+        img: "images/project-cycling.png",
+        links: []
+      },
+      {
+        id: "blender-3d",
+        title: "Blender 3D Work",
+        desc: "Three completed courses in 3D design and five years of practice in Blender. Projects include modeling, texturing, and basic animation.",
+        tags: ["Blender","3D","Design"],
+        img: "images/project-blender.png",
+        links: []
+      },
+      {
+        id: "html-fundamentals",
+        title: "HTML Fundamentals Website",
+        desc: "A milestone project: a fundamentals website teaching HTML basics. The site is not currently online but represents a major learning milestone.",
+        tags: ["HTML","Web","Learning"],
+        img: "images/project-html-fundamentals.png",
+        links: []
       }
+    ];
 
-      function renderTagButtons(){
-        const tags = new Set();
-        projects.forEach(p => (p.tags || []).forEach(t => tags.add(t)));
-        tagContainer.innerHTML = '';
-        // "All" button
-        const allBtn = document.createElement('button');
-        allBtn.type = 'button';
-        allBtn.textContent = 'All';
-        allBtn.className = 'active';
-        allBtn.addEventListener('click', () => {
-          activeTags.clear();
-          Array.from(tagContainer.querySelectorAll('button')).forEach(b => b.classList.remove('active'));
-          allBtn.classList.add('active');
-          applyFilters();
-        });
-        tagContainer.appendChild(allBtn);
+    // Build tag list with counts
+    const tagCounts = projects.reduce((acc, p) => {
+      p.tags.forEach(t => acc[t] = (acc[t] || 0) + 1);
+      return acc;
+    }, {});
 
-        [...tags].sort((a,b)=>a.localeCompare(b)).forEach(t => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.textContent = t;
-          btn.addEventListener('click', () => {
-            // toggle
-            if(btn.classList.contains('active')){
-              btn.classList.remove('active');
-              activeTags.delete(t);
-            } else {
-              btn.classList.add('active');
-              activeTags.add(t);
-            }
-            // deactivate "All" if any tag active
-            if(activeTags.size>0) allBtn.classList.remove('active');
-            else allBtn.classList.add('active');
-            applyFilters();
-          });
-          tagContainer.appendChild(btn);
-        });
-      }
+    const tagBar = document.getElementById('tagBar');
+    const projectGrid = document.getElementById('projectGrid');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    const modalClose = document.getElementById('modalClose');
 
-      function renderTiles(list){
-        grid.innerHTML = '';
-        list.forEach(p => {
-          const node = tpl.content.cloneNode(true);
-          const article = node.querySelector('.tile');
-          const link = node.querySelector('.tile-link');
-          const img = node.querySelector('.tile-media');
-          const title = node.querySelector('.tile-title');
-          const short = node.querySelector('.tile-short');
-          const tagsWrap = node.querySelector('.tile-tags');
-          const detailsBtn = node.querySelector('.details-btn');
-          const viewBtn = node.querySelector('.view-btn');
+    // State
+    let activeTags = new Set();
+    let query = "";
 
-          title.textContent = p.title || '';
-          short.textContent = p.short || '';
-          img.src = p.image || '';
-          img.alt = p.title || 'Project image';
-          // tags
-          (p.tags || []).forEach(t => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.textContent = t;
-            tagsWrap.appendChild(span);
-          });
+    // Render tags
+    function renderTags() {
+      tagBar.innerHTML = '';
+      const allTag = document.createElement('button');
+      allTag.className = 'tag';
+      allTag.textContent = 'All';
+      allTag.onclick = () => { activeTags.clear(); render(); updateTagUI(); };
+      tagBar.appendChild(allTag);
 
-          // data attributes for filtering
-          link.dataset.tags = (p.tags || []).map(x => x.toLowerCase()).join(' ');
-          link.dataset.title = (p.title || '').toLowerCase();
-          link.dataset.short = (p.short || '').toLowerCase();
-
-          // details button opens modal
-          detailsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(p);
-          });
-
-          // view button opens url or repo
-          viewBtn.href = p.url || p.repo || '#';
-          if(!p.url && !p.repo) viewBtn.classList.remove('primary');
-
-          grid.appendChild(node);
-        });
-
-        updateCount();
-      }
-
-      function applyFilters(){
-        const q = (searchInput.value || '').trim().toLowerCase();
-        const tags = Array.from(activeTags).map(t => t.toLowerCase());
-        const tiles = grid.querySelectorAll('.tile');
-        tiles.forEach(tile => {
-          const link = tile.querySelector('.tile-link');
-          const title = link.dataset.title || '';
-          const short = link.dataset.short || '';
-          const itemTags = (link.dataset.tags || '').split(' ').filter(Boolean);
-
-          const matchesQuery = !q || title.includes(q) || short.includes(q) || itemTags.some(t => t.includes(q));
-          const matchesTags = tags.length === 0 || tags.every(t => itemTags.includes(t));
-          tile.style.display = (matchesQuery && matchesTags) ? '' : 'none';
-        });
-        updateCount();
-      }
-
-      function updateCount(){
-        const total = grid.querySelectorAll('.tile').length;
-        const visible = grid.querySelectorAll('.tile:not([style*="display: none"])').length;
-        countEl.textContent = `${visible} of ${total} projects`;
-      }
-
-      function openModal(p){
-        modalTitle.textContent = p.title || '';
-        modalMedia.src = p.image || '';
-        modalMedia.alt = p.title || 'Project image';
-        modalTags.innerHTML = '';
-        (p.tags || []).forEach(t => {
-          const s = document.createElement('span');
-          s.className = 'tag';
-          s.textContent = t;
-          modalTags.appendChild(s);
-        });
-        modalDetails.textContent = p.details || p.short || '';
-        modalLinks.innerHTML = '';
-        if(p.url){
-          const a = document.createElement('a');
-          a.className = 'btn primary';
-          a.href = p.url;
-          a.target = '_blank';
-          a.rel = 'noopener';
-          a.textContent = 'Open project';
-          modalLinks.appendChild(a);
-        }
-        if(p.repo){
-          const a = document.createElement('a');
-          a.className = 'btn';
-          a.href = p.repo;
-          a.target = '_blank';
-          a.rel = 'noopener';
-          a.textContent = 'Repository';
-          modalLinks.appendChild(a);
-        }
-        // show modal
-        modalBackdrop.style.display = 'flex';
-        modalBackdrop.setAttribute('aria-hidden','false');
-        // trap focus
-        modalClose.focus();
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal(){
-        modalBackdrop.style.display = 'none';
-        modalBackdrop.setAttribute('aria-hidden','true');
-        document.body.style.overflow = '';
-      }
-
-      // events
-      searchInput.addEventListener('input', () => {
-        // small debounce
-        clearTimeout(searchInput._t);
-        searchInput._t = setTimeout(applyFilters, 160);
+      Object.keys(tagCounts).sort().forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'tag';
+        btn.setAttribute('data-tag', tag);
+        btn.innerHTML = `${tag} <span class="count">(${tagCounts[tag]})</span>`;
+        btn.onclick = () => {
+          if (activeTags.has(tag)) activeTags.delete(tag);
+          else activeTags.add(tag);
+          updateTagUI();
+          render();
+        };
+        tagBar.appendChild(btn);
       });
 
-      modalClose.addEventListener('click', closeModal);
-      modalBackdrop.addEventListener('click', (e) => {
-        if(e.target === modalBackdrop) closeModal();
+      // Clear filters button
+      const clear = document.createElement('button');
+      clear.className = 'tag';
+      clear.textContent = 'Clear';
+      clear.onclick = () => { activeTags.clear(); query=''; searchInput.value=''; render(); updateTagUI(); };
+      tagBar.appendChild(clear);
+    }
+
+    // Update tag UI active states
+    function updateTagUI() {
+      document.querySelectorAll('.tag').forEach(el => {
+        const t = el.getAttribute('data-tag');
+        if (t && activeTags.has(t)) el.classList.add('active'); else el.classList.remove('active');
       });
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
+    }
+
+    // Render project cards
+    function render() {
+      const q = query.trim().toLowerCase();
+      projectGrid.innerHTML = '';
+
+      const filtered = projects.filter(p => {
+        // tag filter
+        if (activeTags.size > 0) {
+          const has = [...activeTags].every(t => p.tags.includes(t));
+          if (!has) return false;
+        }
+        // search filter
+        if (q) {
+          const hay = (p.title + ' ' + p.desc + ' ' + p.tags.join(' ')).toLowerCase();
+          return hay.includes(q);
+        }
+        return true;
       });
 
-      // initial load
-      loadProjects();
-    })();
+      if (filtered.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'card';
+        empty.style.padding = '28px';
+        empty.innerHTML = `<strong>No projects found</strong><div style="margin-top:8px;color:var(--muted)">Try clearing filters or search terms.</div>`;
+        projectGrid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <div class="project-media">
+            <img src="${p.img}" alt="${escapeHtml(p.title)} screenshot" onerror="this.style.objectFit='contain';this.src='images/placeholder.png'">
+          </div>
+          <div class="project-body">
+            <div>
+              <div class="project-title">${escapeHtml(p.title)}</div>
+              <div class="project-desc">${escapeHtml(p.desc)}</div>
+            </div>
+            <div class="project-meta">
+              ${p.tags.map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join('')}
+            </div>
+            <div class="project-actions">
+              <button class="btn btn-primary" data-id="${p.id}">Details</button>
+              ${p.links && p.links.length ? p.links.map(l => `<a class="btn btn-ghost" href="${l.href}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>`).join('') : ''}
+            </div>
+          </div>
+        `;
+        projectGrid.appendChild(card);
+      });
+
+      // attach detail handlers
+      document.querySelectorAll('.btn-primary[data-id]').forEach(b => {
+        b.addEventListener('click', (e) => {
+          const id = e.currentTarget.getAttribute('data-id');
+          openDetails(id);
+        });
+      });
+    }
+
+    // Escape helper
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function(m) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
+    }
+
+    // Open modal with details
+    function openDetails(id) {
+      const p = projects.find(x => x.id === id);
+      if (!p) return;
+      modalContent.innerHTML = `
+        <h2 style="margin-top:0">${escapeHtml(p.title)}</h2>
+        <p style="color:var(--muted)">${escapeHtml(p.tags.join(' • '))}</p>
+        <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+          <img src="${p.img}" alt="${escapeHtml(p.title)} preview" style="width:220px; height:140px; object-fit:cover; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.08)" onerror="this.src='images/placeholder.png'">
+          <div style="flex:1;">
+            <p style="margin-top:0">${escapeHtml(p.desc)}</p>
+            <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+              ${p.links && p.links.length ? p.links.map(l => `<a class="btn btn-ghost" href="${l.href}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>`).join('') : ''}
+              <button class="btn btn-primary" id="modalCloseBtn">Close</button>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    // Search handlers
+    searchInput.addEventListener('input', (e) => {
+      query = e.target.value;
+      render();
+    });
+    clearSearch.addEventListener('click', () => {
+      query = '';
+      searchInput.value = '';
+      render();
+    });
+
+    // Modal close
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Theme toggle and persistence
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      try { localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); } catch(e){}
+    }
+    window.toggleDarkMode = toggleDarkMode;
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    } catch(e){}
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initialize
+    renderTags();
+    updateTagUI();
+    render();
   </script>
 </body>
 </html>
