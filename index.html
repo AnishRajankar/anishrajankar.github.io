@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title> Anish's Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Anish Rajankar — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -26,9 +26,16 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
+    nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
     nav a {
       color: white;
-      margin: 0 15px;
+      margin: 0 8px;
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s ease;
@@ -43,14 +50,30 @@
       animation: fadeIn 2s ease-in-out;
     }
     .hero h1 { font-size: 3rem; margin-bottom: 20px; animation: slideDown 1.5s ease; }
-    .hero p { font-size: 1.2rem; max-width: 600px; margin: auto; animation: fadeIn 2.5s ease; }
-    .hero button {
-      margin-top: 30px; padding: 12px 25px; font-size: 1rem;
-      border: none; border-radius: 25px;
-      background: #ffdd57; color: #333; cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
+    .hero p { font-size: 1.2rem; max-width: 700px; margin: auto; animation: fadeIn 2.5s ease; }
+
+    /* CTA button used in hero and projects */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 28px;
+      background: linear-gradient(90deg,#ffdd57,#ffc107);
+      color: #111;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(255,189,51,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      border: none;
+      cursor: pointer;
+      margin-top: 30px;
+      font-size: 1rem;
     }
-    .hero button:hover { transform: scale(1.1); background: #ffc107; }
+    .btn-cta:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(255,189,51,0.22); }
+    .btn-cta:active { transform: translateY(-1px); }
+    .btn-cta .arrow { display:inline-block; transform: translateX(0); transition: transform 0.18s ease; }
+    .btn-cta:hover .arrow { transform: translateX(6px); }
 
     .content {
       padding: 40px 20px;
@@ -118,69 +141,94 @@
     body.dark footer { background: #111; color: #888; }
     body.dark .gallery-caption { background: rgba(255,255,255,0.1); }
 
+    /* Small helper text for CTA */
+    .cta-note {
+      margin-top: 12px;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    body.dark .cta-note { color: #bbb; }
+
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.2rem; }
+      nav { display: block; }
+      nav a { display: inline-block; margin: 6px 6px; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <h2>Anish Rajankar (Dev-Test)</h2>
+    <h2>Anish Rajankar</h2>
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
-      <button onclick="toggleDarkMode()" style="margin-left:20px; padding:5px 10px; border:none; border-radius:5px; background:#ffdd57; cursor:pointer;">🌙 Toggle Dark Mode</button>
+      <button onclick="toggleDarkMode()" style="margin-left:12px; padding:6px 10px; border:none; border-radius:6px; background:#ffdd57; cursor:pointer;">🌙 Toggle Dark Mode</button>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Wilcommen</h1>
-    <p>This is my personal website portfolio showcasing my skills and hardwork.</p>
-    <button onclick="document.getElementById('projects').scrollIntoView()">See My Work</button>
+    <h1>Welcome</h1>
+    <p>This is my personal website portfolio showcasing my skills and hard work. I build web apps, mobile experiments, and contribute to open source.</p>
+
+    <!-- Hero CTA linking to projects.html -->
+    <a class="btn-cta" href="projects.html" aria-label="Explore my projects">
+      <span>Explore my work</span>
+      <span class="arrow">→</span>
+    </a>
   </section>
 
   <section class="content">
     <div id="about" class="card">
       <h2>About Me</h2>
       <p>
-  Hello! I’m a developer passionate about building cool projects and constantly exploring new technologies. 
-  I enjoy turning ideas into reality through clean, efficient code and creative problem-solving. 
-  My journey has led me to experiment with web development, mobile applications, and open-source contributions, 
-  where I’ve learned the importance of collaboration and continuous growth. 
-  Beyond coding, I’m driven by curiosity — always eager to dive into emerging tools, frameworks, and languages 
-  that push the boundaries of what’s possible in tech.
-</p>
-
+        Hello! I’m a developer passionate about building cool projects and constantly exploring new technologies.
+        I enjoy turning ideas into reality through clean, efficient code and creative problem-solving.
+        My journey has led me to experiment with web development, mobile applications, and open-source contributions,
+        where I’ve learned the importance of collaboration and continuous growth.
+      </p>
     </div>
 
     <div id="projects" class="card">
-      <h2>Projects-Brief</h2>
+      <h2>Projects Brief</h2>
       <ul>
-        <li>1.Portfolio website (this one!)</li>
-        <li>2.Mobile app experiments (Dart/Kotlin)</li>
-        <li>3.Open-source contributions (coming soon)</li>
+        <li>Portfolio website (this one)</li>
+        <li>Mobile app experiments (Dart / Kotlin)</li>
+        <li>Open-source contributions (selected PRs)</li>
       </ul>
-      <button onclick="alert('Project details coming soon!')">View More</button>
+
+      <!-- Meaningful link + short context -->
+      <p class="cta-note">Want the full breakdown, source links, and live demos? Explore the complete project pages.</p>
+
+      <!-- Prominent button linking to projects.html -->
+      <a class="btn-cta" href="projects.html" aria-label="View full projects">
+        <span>See full projects</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
 
     <div id="gallery" class="card">
       <h2>Language Arena</h2>
       <div class="gallery">
         <div class="gallery-item">
-          <img src="images/pythontp.png" alt="El CLassico">
+          <img src="images/pythontp.png" alt="Python">
           <div class="gallery-caption">Python Programming</div>
         </div>
         <div class="gallery-item">
-          <img src="images/typescript.webp" alt="Project 1">
+          <img src="images/typescript.webp" alt="TypeScript">
           <div class="gallery-caption">TypeScript</div>
         </div>
         <div class="gallery-item">
-          <img src="images/css-3.svg" alt="Project 2">
+          <img src="images/css-3.svg" alt="CSS">
           <div class="gallery-caption">CSS</div>
         </div>
         <div class="gallery-item">
-          <img src="images/javascript.webp" alt="Project 3">
+          <img src="images/javascript.webp" alt="JavaScript">
           <div class="gallery-caption">JavaScript</div>
         </div>
       </div>
@@ -188,19 +236,29 @@
 
     <div id="contact" class="card">
       <h2>Contact</h2>
-      <p>You can reach me<strong> by my email (case-held)</strong> or via <a href="https://github.com/AnishRajankar">Github</a>.</p>
+      <p>You can reach me by email or via <a href="https://github.com/AnishRajankar" target="_blank" rel="noopener">GitHub</a>.</p>
       <button onclick="alert('Thanks for reaching out!')">Say Hello</button>
     </div>
   </section>
 
   <footer>
-    <p>&copy; 2025 Anish Rajankar | Built with Passion and Patience.</p>
+    <p>&copy; <span id="year"></span> Anish Rajankar | Built with Passion and Patience.</p>
   </footer>
 
   <script>
+    // Year update
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Dark mode toggle
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
     }
+
+    // Restore theme if saved (optional)
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    } catch (e) {}
   </script>
 </body>
 </html>
